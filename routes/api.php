@@ -17,30 +17,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 	return $request->user();
 });
 
-//api end points build of the products model
-Route::get( 'products', function () {
-	return response( Product::all(), 200 );
-});
+/**
+ * api end points build off the products model
+ * logic moved out of the api route and into ProductsController 
+ * Laravel implicit binding used to call corresponding methods in ProductsController class
+ */
+
+Route::get('products', 'ProductsController@index');
  
-Route::get( 'products/{product}', function ( $productId ) {
-	return response( Product::find( $productId ), 200);
-});
-  
+Route::get('products/{product}', 'ProductsController@show');
  
-Route::post( 'products', function( Request $request ) {
-    $resp = Product::create( $request->all() );
-	return $resp;
+Route::post('products','ProductsController@store');
  
-});
+Route::put('products/{product}','ProductsController@update');
  
-Route::put( 'products/{product}', function( Request $request, $productId ) {
-	$product = Product::findOrFail( $productId );
-	$product->update( $request->all() );
-	return $product;
-});
- 
-Route::delete( 'products/{product}',function( $productId ) {
-	Product::find( $productId )->delete();
- 
-	return 204;
-});
+Route::delete('products/{product}', 'ProductsController@delete');
