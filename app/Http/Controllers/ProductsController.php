@@ -17,13 +17,6 @@ class ProductsController extends Controller
         return $product;
     }
 
-    public function store(Request $request)
-    {
-        $product = Product::create($request->all());
-        
-        return response()->json($product, 201);
-    }
-
     public function update(Request $request, Product $product)
     {
         $product->update($request->all());
@@ -36,5 +29,18 @@ class ProductsController extends Controller
         $product->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required|unique:products|max:255',
+            'description' => 'required',
+            'price' => 'integer',
+            'availabilty' => 'boolean',
+        ]);
+            $product = Product::create($request->all());
+
+            return response()->json($product, 201);
     }
 }

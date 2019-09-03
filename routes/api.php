@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
  * api end points build off the products model
  * logic moved out of the api route and into ProductsController 
  * Laravel implicit binding used to call corresponding methods in ProductsController class
+ * Routes can be accessed via http://127.0.0.1:8000/api/endpoint
  */
 
 Route::get('products', 'ProductsController@index');
